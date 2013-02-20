@@ -17,8 +17,6 @@ default["keystone"]["debug"] = "False"
 
 default["keystone"]["service_port"] = "5000"
 default["keystone"]["admin_port"] = "35357"
-default['keystone']['user'] = "keystone"
-default['keystone']['group'] = "keystone"
 default["keystone"]["region"] = "RegionOne"
 
 default["keystone"]["bind_interface"] = "lo"
@@ -68,6 +66,8 @@ default["keystone"]["signing"]["ca_password"] = nil
 # platform defaults
 case platform
 when "fedora", "redhat", "centos" # :pragma-foodcritic: ~FC024 - won't fix this
+  default['keystone']['user'] = "keystone"
+  default['keystone']['group'] = "keystone"
   default["keystone"]["platform"] = {
     "mysql_python_packages" => [ "MySQL-python" ],
     "keystone_packages" => [ "openstack-keystone" ],
@@ -75,7 +75,19 @@ when "fedora", "redhat", "centos" # :pragma-foodcritic: ~FC024 - won't fix this
     "keystone_process_name" => "keystone-all",
     "package_options" => ""
   }
+when "suse"
+  default['keystone']['user'] = "openstack-keystone"
+  default['keystone']['group'] = "openstack-keystone"
+  default["keystone"]["platform"] = {
+    "mysql_python_packages" => [ "python-mysql" ],
+    "keystone_packages" => [ "openstack-keystone" ],
+    "keystone_service" => "openstack-keystone",
+    "keystone_process_name" => "keystone-all",
+    "package_options" => ""
+  }
 when "ubuntu"
+  default['keystone']['user'] = "keystone"
+  default['keystone']['group'] = "keystone"
   default["keystone"]["platform"] = {
     "mysql_python_packages" => [ "python-mysqldb" ],
     "keystone_packages" => [ "keystone" ],
