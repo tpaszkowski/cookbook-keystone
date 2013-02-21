@@ -126,14 +126,12 @@ action :create_tenant do
     tenant_key = "name"
     tenant_path = "tenants"
     tenant_uuid, error = _find_id(new_resource, http, tenant_path, tenant_container, tenant_key, new_resource.tenant_name)
-
     unless tenant_uuid or error
         # Service does not exist yet
         payload = _build_tenant_object(new_resource.tenant_name, new_resource.service_description, new_resource.tenant_enabled)
 
         # Construct the extension path
-        path = "tenants"
-        req = _http_post new_resource, path
+        req = _http_post new_resource, tenant_path
         req.body = JSON.generate(payload)
         resp = http.request req
         if resp.is_a?(Net::HTTPOK)
@@ -408,7 +406,7 @@ end
 
 # Just cats the request URI with the supplied path, returning a string
 def _path uri, subject
-  [uri.request_uri, subject].join
+  [uri.request_uri, subject].join '/'
 end
 
 
