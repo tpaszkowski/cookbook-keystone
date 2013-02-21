@@ -211,7 +211,7 @@ node["keystone"]["users"].each do |username, user_info|
     user_name username
     user_pass user_info["password"]
     tenant_name user_info["default_tenant"]
-    user_enabled "true" # Not required as this is the default
+    user_enabled true # Not required as this is the default
 
     action :create_user
   end
