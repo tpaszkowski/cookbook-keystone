@@ -182,7 +182,7 @@ node["keystone"]["tenants"].each do |tenant_name|
     admin_password admin_pass
     tenant_name tenant_name
     tenant_description "#{tenant_name} Tenant"
-    tenant_enabled "true" # Not required as this is the default
+    tenant_enabled true # Not required as this is the default
 
     action :create_tenant
   end
