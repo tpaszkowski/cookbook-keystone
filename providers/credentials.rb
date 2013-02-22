@@ -146,7 +146,7 @@ end
 
 # Just cats the request URI with the supplied path, returning a string
 def _path uri, subject
-  [uri.request_uri, subject].join
+  [uri.request_uri, subject].join '/'
 end
 
 
