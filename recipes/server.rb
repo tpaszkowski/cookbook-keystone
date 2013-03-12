@@ -104,8 +104,15 @@ ip_address = interface_node.select do |address, data|
   data['family'] == "inet"
 end[0][0]
 
+release = node["openstack"]["release"]
+if node["openstack"]["release_number"][release] >= node["openstack"]["release_number"]["grizzly"]
+  keystone_conf_source = "keystone.conf.grizzly.erb"
+else
+  keystone_conf_source = "keystone.conf.erb"
+end
+
 template "/etc/keystone/keystone.conf" do
-  source "keystone.conf.erb"
+  source keystone_conf_source
   owner node["keystone"]["user"]
   group node["keystone"]["group"]
   mode   00644
